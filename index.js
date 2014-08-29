@@ -1,11 +1,15 @@
 // Setup basic express server
 var express = require('express');
-var app = express();
+var app = new express();
 var server = require('http').createServer(app);
 var io = require('socket.io')(server);
 var redis = require('socket.io-redis');
+var Hotel =  Hotel = require('socket.io-hotel');
 var port = process.env.PORT || 3000;
+
 io.adapter(redis({ host: 'localhost', port: 6379 }));
+
+var hotel = new Hotel(io.sockets.adapter);
 
 server.listen(port, function () {
   console.log('Server listening at port %d', port);
@@ -26,16 +30,30 @@ io.on('connection', function (socket) {
   // when the client emits 'new message', this listens and executes
   socket.on('new message', function (data) {
     // we tell the client to execute 'new message'
-    socket.broadcast.emit('new message', {
-      username: socket.username,
-      message: data
-    });
+      var message = {
+          username: socket.username,
+          message: data
+      };
+
+      hotel.getPropertiesRoom('lobby', function(room){
+          var room = room || {};
+          var messageLog = room.messageLog || [];
+          if(messageLog){
+              messageLog.push(message);
+              console.log(room);
+              hotel.setPropertyRoom('lobby', 'messageLog', messageLog);
+          }
+      });
+
+      socket.broadcast.emit('new message', message);
   });
 
   // when the client emits 'add user', this listens and executes
   socket.on('add user', function (username) {
+
     // we store the username in the socket session for this client
     socket.username = username;
+
     // add the client's username to the global list
     usernames[username] = username;
     ++numUsers;
@@ -43,11 +61,23 @@ io.on('connection', function (socket) {
     socket.emit('login', {
       numUsers: numUsers
     });
+
     // echo globally (all clients) that a person has connected
     socket.broadcast.emit('user joined', {
       username: socket.username,
       numUsers: numUsers
     });
+
+      // Show Chat History
+    hotel.getPropertiesRoom('lobby', function(room){
+      if(room){
+          var messageLog = room.messageLog;
+          messageLog.forEach(function(element){
+              socket.emit('new message', element);
+          });
+      }
+    });
+
   });
 
   // when the client emits 'typing', we broadcast it to others
