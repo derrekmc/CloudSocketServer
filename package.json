@@ -18,6 +18,7 @@
     "redis": "^0.12.1",
     "mongo": "^0.1.0",
     "connect-mongo": "^0.4.1",
-    "socket.io-hotel": "^0.2.2"
+    "socket.io-hotel": "^0.2.2",
+    "webrtc.io": "0.0.4"
   }
 }

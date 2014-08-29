@@ -1,0 +1,8 @@
+<script src="/webrtc.io.js"></script>
+<script>
+    rtc.createStream({"video": true, "audio":true}, function(stream){
+        // get local stream for manipulation
+    });
+    rtc.connect('ws://yourserveraddress:8001', optionalRoom);
+    //then a bunch of callbacks are available
+</script>
