@@ -68,7 +68,7 @@ io.on('connection', function (socket) {
       numUsers: numUsers
     });
 
-      // Show Chat History
+    // Show Chat History
     hotel.getPropertiesRoom('lobby', function(room){
       if(room){
           var messageLog = room.messageLog;
