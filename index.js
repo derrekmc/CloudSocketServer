@@ -23,7 +23,7 @@ app.use(express.static(__dirname + '/public'));
 // usernames which are currently connected to the chat
 var usernames = {};
 var numUsers = 0;
-var webRTC = require('webrtc.io').listen(8001);
+//var webRTC = require('webrtc.io').listen(8001);
 
 io.on('connection', function (socket) {
   var addedUser = false;
@@ -42,6 +42,7 @@ io.on('connection', function (socket) {
           if(messageLog){
               messageLog.push(message);
               //console.log(room);
+              if(messageLog.length > 20) messageLog.shift();
               hotel.setPropertyRoom('lobby', 'messageLog', messageLog);
           }
       });

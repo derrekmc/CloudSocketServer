@@ -9,3 +9,15 @@ sticky(require('http').createServer(function(req, res) {
 })).listen(8000, function() {
     console.log('server started on 3000 port');
 });
+
+
+// WEB RTC Code
+//https://github.com/cavedweller/webRTC.io
+
+// Demo
+// git clone https://github.com/dennismartensson/webrtc.io-demo/
+
+//getAuth
+//getMessages
+//getUsers
+//make roster an event
