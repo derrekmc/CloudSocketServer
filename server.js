@@ -21,3 +21,8 @@ sticky(require('http').createServer(function(req, res) {
 //getMessages
 //getUsers
 //make roster an event
+
+
+// THIS IS THE WHOLE THING!!!
+//https://github.com/guille/weplay
+//https://www.npmjs.org/package/rtmp-download

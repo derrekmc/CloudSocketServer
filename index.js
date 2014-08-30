@@ -17,7 +17,7 @@ server.listen(port, function () {
 
 // Routing
 app.use(express.static(__dirname + '/public'));
-
+//
 // Chatroom
 
 // usernames which are currently connected to the chat
